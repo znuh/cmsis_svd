@@ -4,6 +4,7 @@ package cmsis_svd
 
 import (
 	"encoding/xml"
+	"io"
 )
 
 // Range ...
@@ -244,4 +245,13 @@ type Device struct {
 	Width                   string            `xml:"width"`
 	Peripherals             *Peripherals      `xml:"peripherals"`
 	VendorExtensions        *VendorExtensions `xml:"vendorExtensions"`
+}
+
+func ReadSVD(reader io.Reader) (*Device, error) {
+    device  := &Device{}
+    decoder := xml.NewDecoder(reader)
+    if err := decoder.Decode(device); err != nil {
+		return nil, err
+	}
+	return device, nil
 }
