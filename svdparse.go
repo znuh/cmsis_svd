@@ -93,8 +93,8 @@ type SauRegionsConfig struct {
 }
 
 // CpuType ...
-type CpuType struct {
-	XMLName             xml.Name          `xml:"cpuType"`
+type Cpu struct {
+	XMLName             xml.Name          `xml:"cpu"`
 	Name                string            `xml:"name"`
 	Revision            string            `xml:"revision"`
 	Endian              string            `xml:"endian"`
@@ -238,7 +238,7 @@ type Device struct {
 	Version                 string            `xml:"version"`
 	Description             string            `xml:"description"`
 	LicenseText             string            `xml:"licenseText"`
-	Cpu                     *CpuType          `xml:"cpu"`
+	Cpu                     *Cpu              `xml:"cpu"`
 	HeaderSystemFilename    string            `xml:"headerSystemFilename"`
 	HeaderDefinitionsPrefix string            `xml:"headerDefinitionsPrefix"`
 	AddressUnitBits         string            `xml:"addressUnitBits"`
