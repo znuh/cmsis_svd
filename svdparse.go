@@ -7,42 +7,34 @@ import (
 	"io"
 )
 
-// Range ...
 type Range struct {
 	XMLName xml.Name `xml:"range"`
 	Minimum string   `xml:"minimum"`
 	Maximum string   `xml:"maximum"`
 }
 
-// WriteConstraintType ...
-type WriteConstraintType struct {
-	XMLName             xml.Name `xml:"writeConstraintType"`
+type WriteConstraint struct {
+	XMLName             xml.Name `xml:"writeConstraint"`
 	WriteAsRead         bool     `xml:"writeAsRead"`
 	UseEnumeratedValues bool     `xml:"useEnumeratedValues"`
 	Range               *Range   `xml:"range"`
 }
 
-// AddressBlockType ...
-type AddressBlockType struct {
-	XMLName    xml.Name `xml:"addressBlockType"`
+type AddressBlock struct {
+	XMLName    xml.Name `xml:"addressBlock"`
 	Offset     string   `xml:"offset"`
 	Size       string   `xml:"size"`
 	Usage      string   `xml:"usage"`
 	Protection string   `xml:"protection"`
 }
 
-// InterruptType ...
-type InterruptType struct {
-	XMLName     xml.Name `xml:"interruptType"`
+type Interrupt struct {
+	XMLName     xml.Name `xml:"interrupt"`
 	Name        string   `xml:"name"`
 	Description string   `xml:"description"`
 	Value       int      `xml:"value"`
 }
 
-// Usage ...
-type Usage string
-
-// RegisterPropertiesGroup ...
 type RegisterPropertiesGroup struct {
 	XMLName    xml.Name `xml:"registerPropertiesGroup"`
 	Size       string
@@ -52,21 +44,18 @@ type RegisterPropertiesGroup struct {
 	ResetMask  string
 }
 
-// BitRangeLsbMsbStyle ...
 type BitRangeLsbMsbStyle struct {
 	XMLName xml.Name `xml:"bitRangeLsbMsbStyle"`
 	Lsb     string
 	Msb     string
 }
 
-// BitRangeOffsetWidthStyle ...
 type BitRangeOffsetWidthStyle struct {
 	XMLName   xml.Name `xml:"bitRangeOffsetWidthStyle"`
 	BitOffset string
 	BitWidth  string
 }
 
-// DimElementGroup ...
 type DimElementGroup struct {
 	XMLName      xml.Name `xml:"dimElementGroup"`
 	Dim          string
@@ -74,7 +63,6 @@ type DimElementGroup struct {
 	DimIndex     string
 }
 
-// Region ...
 type Region struct {
 	XMLName     xml.Name `xml:"region"`
 	EnabledAttr bool     `xml:"enabled,attr,omitempty"`
@@ -84,7 +72,6 @@ type Region struct {
 	Access      string   `xml:"access"`
 }
 
-// SauRegionsConfig ...
 type SauRegionsConfig struct {
 	XMLName                    xml.Name  `xml:"sauRegionsConfig"`
 	EnabledAttr                bool      `xml:"enabled,attr,omitempty"`
@@ -92,7 +79,6 @@ type SauRegionsConfig struct {
 	Region                     []*Region `xml:"region"`
 }
 
-// CpuType ...
 type Cpu struct {
 	XMLName             xml.Name          `xml:"cpu"`
 	Name                string            `xml:"name"`
@@ -113,7 +99,6 @@ type Cpu struct {
 	SauRegionsConfig    *SauRegionsConfig `xml:"sauRegionsConfig"`
 }
 
-// EnumeratedValue ...
 type EnumeratedValue struct {
 	XMLName     xml.Name `xml:"enumeratedValue"`
 	Name        string   `xml:"name"`
@@ -122,18 +107,16 @@ type EnumeratedValue struct {
 	IsDefault   bool     `xml:"isDefault"`
 }
 
-// EnumeratedValuesType ...
-type EnumeratedValuesType struct {
-	XMLName         xml.Name           `xml:"enumeratedValuesType"`
+type EnumeratedValues struct {
+	XMLName         xml.Name           `xml:"enumeratedValues"`
 	DerivedFromAttr string             `xml:"derivedFrom,attr,omitempty"`
 	Name            string             `xml:"name"`
 	Usage           string             `xml:"usage"`
 	EnumeratedValue []*EnumeratedValue `xml:"enumeratedValue"`
 }
 
-// FieldType ...
-type FieldType struct {
-	XMLName                  xml.Name `xml:"fieldType"`
+type Field struct {
+	XMLName                  xml.Name `xml:"field"`
 	DerivedFromAttr          string   `xml:"derivedFrom,attr,omitempty"`
 	BitRangeLsbMsbStyle      *BitRangeLsbMsbStyle
 	BitRangeOffsetWidthStyle *BitRangeOffsetWidthStyle
@@ -142,20 +125,18 @@ type FieldType struct {
 	BitRange                 string                  `xml:"bitRange"`
 	Access                   string                  `xml:"access"`
 	ModifiedWriteValues      string                  `xml:"modifiedWriteValues"`
-	WriteConstraint          *WriteConstraintType    `xml:"writeConstraint"`
+	WriteConstraint          *WriteConstraint    `xml:"writeConstraint"`
 	ReadAction               string                  `xml:"readAction"`
-	EnumeratedValues         []*EnumeratedValuesType `xml:"enumeratedValues"`
+	EnumeratedValues         []*EnumeratedValues `xml:"enumeratedValues"`
 }
 
-// FieldsType ...
-type FieldsType struct {
-	XMLName xml.Name     `xml:"fieldsType"`
-	Field   []*FieldType `xml:"field"`
+type Fields struct {
+	XMLName xml.Name     `xml:"fields"`
+	Field   []*Field `xml:"field"`
 }
 
-// RegisterType ...
-type RegisterType struct {
-	XMLName                 xml.Name `xml:"registerType"`
+type Register struct {
+	XMLName                 xml.Name `xml:"register"`
 	DerivedFromAttr         string   `xml:"derivedFrom,attr,omitempty"`
 	DimElementGroup         *DimElementGroup
 	RegisterPropertiesGroup *RegisterPropertiesGroup
@@ -167,14 +148,13 @@ type RegisterType struct {
 	AddressOffset           string               `xml:"addressOffset"`
 	DataType                string               `xml:"dataType"`
 	ModifiedWriteValues     string               `xml:"modifiedWriteValues"`
-	WriteConstraint         *WriteConstraintType `xml:"writeConstraint"`
+	WriteConstraint         *WriteConstraint `xml:"writeConstraint"`
 	ReadAction              string               `xml:"readAction"`
-	Fields                  *FieldsType          `xml:"fields"`
+	Fields                  *Fields          `xml:"fields"`
 }
 
-// ClusterType ...
-type ClusterType struct {
-	XMLName                 xml.Name `xml:"clusterType"`
+type Cluster struct {
+	XMLName                 xml.Name `xml:"cluster"`
 	DerivedFromAttr         string   `xml:"derivedFrom,attr,omitempty"`
 	DimElementGroup         *DimElementGroup
 	RegisterPropertiesGroup *RegisterPropertiesGroup
@@ -183,20 +163,18 @@ type ClusterType struct {
 	AlternateCluster        string          `xml:"alternateCluster"`
 	HeaderStructName        string          `xml:"headerStructName"`
 	AddressOffset           string          `xml:"addressOffset"`
-	Register                []*RegisterType `xml:"register"`
-	Cluster                 []*ClusterType  `xml:"cluster"`
+	Register                []*Register `xml:"register"`
+	Cluster                 []*Cluster  `xml:"cluster"`
 }
 
-// RegistersType ...
-type RegistersType struct {
-	XMLName  xml.Name        `xml:"registersType"`
-	Cluster  []*ClusterType  `xml:"cluster"`
-	Register []*RegisterType `xml:"register"`
+type Registers struct {
+	XMLName  xml.Name        `xml:"registers"`
+	Cluster  []*Cluster  `xml:"cluster"`
+	Register []*Register `xml:"register"`
 }
 
-// PeripheralType ...
-type PeripheralType struct {
-	XMLName                 xml.Name `xml:"peripheralType"`
+type Peripheral struct {
+	XMLName                 xml.Name `xml:"peripheral"`
 	DerivedFromAttr         string   `xml:"derivedFrom,attr,omitempty"`
 	DimElementGroup         *DimElementGroup
 	RegisterPropertiesGroup *RegisterPropertiesGroup
@@ -210,23 +188,20 @@ type PeripheralType struct {
 	HeaderStructName        string              `xml:"headerStructName"`
 	DisableCondition        string              `xml:"disableCondition"`
 	BaseAddress             string              `xml:"baseAddress"`
-	AddressBlock            []*AddressBlockType `xml:"addressBlock"`
-	Interrupt               []*InterruptType    `xml:"interrupt"`
-	Registers               *RegistersType      `xml:"registers"`
+	AddressBlock            []*AddressBlock `xml:"addressBlock"`
+	Interrupt               []*Interrupt    `xml:"interrupt"`
+	Registers               *Registers      `xml:"registers"`
 }
 
-// Peripherals ...
 type Peripherals struct {
 	XMLName    xml.Name          `xml:"peripherals"`
-	Peripheral []*PeripheralType `xml:"peripheral"`
+	Peripheral []*Peripheral `xml:"peripheral"`
 }
 
-// VendorExtensions ...
 type VendorExtensions struct {
 	XMLName xml.Name `xml:"vendorExtensions"`
 }
 
-// Device ...
 type Device struct {
 	XMLName                 xml.Name `xml:"device"`
 	SchemaVersionAttr       float64  `xml:"schemaVersion,attr"`
